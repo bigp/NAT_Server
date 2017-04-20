@@ -1,0 +1,20 @@
+{
+  "name": "NAT_Server",
+  "version": "1.0.0",
+  "description": "Nat Server",
+  "main": "app.js",
+  "repository": "https://github.com/bigp/NAT_Server.git",
+  "author": "Pierre Chamberlain",
+  "license": "MIT",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "dateformat": "^2.0.0",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.2",
+    "fs-extra": "^2.1.2",
+    "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
+    "socket.io": "^1.7.3",
+    "yargs": "^7.1.0"
+  }
+}
