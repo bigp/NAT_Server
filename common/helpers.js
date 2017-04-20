@@ -214,4 +214,8 @@ module.exports = function(SCOPE) {
 			callbacks && callbacks();
 		});
 	};
+
+	SCOPE.getFullURL = function(req) {
+		return req.protocol + '://' + req.get('host') + req.originalUrl;
+	}
 };
