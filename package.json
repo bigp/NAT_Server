@@ -6,7 +6,9 @@
   "repository": "https://github.com/bigp/NAT_Server.git",
   "author": "Pierre Chamberlain",
   "license": "MIT",
-  "scripts": { "start": "node app.js"},
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "colors": "^1.1.2",
     "dateformat": "^2.0.0",
