@@ -34,11 +34,15 @@
 </head>
 <body>
 
-<div class="padded-5">
+<div class="padded-5" id="app">
     <h1>Socket.IO Cursor Test</h1>
-    
+
     <p>Position:</p>
     <p id="position"></p>
+
+    <br/>
+
+    <input type="text" id="player_name" placeholder="[your name]" v-model="player_name" onkeyup="changeName()">
 
     <div id="players">
 

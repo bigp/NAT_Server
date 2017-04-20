@@ -3,21 +3,51 @@ const $$$ = {};
 const $win = $(window);
 
 $win.ready(() => {
+	BIGP.vue = new Vue({
+		el: "#app",
+		data: {
+			player_name: ''
+		}
+	});
+
 	BIGP.io = io();
 	BIGP.io.on('echo', (msg) => trace(msg));
 	BIGP.io.on('cursor', onOtherCursor);
+	BIGP.io.on('click-here', onOtherClickHere);
+	BIGP.io.on('change-name', setOtherName);
 
 	$$$.divPosition = $('#position');
 	$$$.divPlayers = $('#players');
+	$$$.txtPlayerName = $('#player_name');
 
 	$win.mousemove(e => {
 		$$$.divPosition[0].innerHTML = (e.pageX + "<br/>" + e.pageY);
 
-		BIGP.io.emit('cursor', {x: e.pageX, y: e.pageY});
+		BIGP.io.emit('cursor', getPos(e));
 	});
 
+	$win.click(e => {
+		BIGP.io.emit('click-here', getPos(e))
+	})
+
 	cleanupUnused();
+
+
 });
+
+function changeName() {
+	BIGP.io.emit('change-name', $$$.txtPlayerName.val());
+}
+
+function getPos(e) {
+	return {x: e.pageX, y: e.pageY};
+}
+
+function updateClientTime(client) {
+	if(!client) return;
+	client.time = new Date().getTime();
+	TweenMax.to(client.div, 0.5, {alpha: 1});
+}
 
 $$$.others = {};
 function onOtherCursor(other) {
@@ -29,14 +59,40 @@ function onOtherCursor(other) {
 
     	client = $$$.others[other.id] = {
     		id: other.id,
+			name: other.name,
 			div: $div
     	};
 	}
 
-	client.time = new Date().getTime();
+	updateClientTime(client);
 	$div = client.div;
 	$div.offset({left: other.pos.x, top: other.pos.y});
-	TweenMax.to($div, 0.5, {alpha: 1});
+
+	setOtherName(other, $div);
+}
+
+function setOtherName(other, $div) {
+	var client = $$$.others[other.id];
+	if(!$div) $div = client.div;
+
+	var hasName = other.userData.name && other.userData.name.trim().length;
+	$div.find('.tag')[0].innerHTML = hasName ? other.userData.name : other.id;
+
+	updateClientTime(client);
+}
+
+function onOtherClickHere(other) {
+	var client = $$$.others[other.id];
+	var $clickHere = $('<div class="click-here"><i></i></div>');
+	$clickHere.offset({left: other.pos.x, top: other.pos.y});
+
+	$$$.divPlayers.append($clickHere);
+
+	TweenMax.to($clickHere, 0.8, {alpha: 0, scaleX: 2, scaleY: 2, ease: Quint.easeOut, onComplete: function() {
+		$clickHere.remove();
+	}});
+
+	updateClientTime(client);
 }
 
 function cleanupUnused() {
