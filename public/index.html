@@ -15,6 +15,19 @@
 
     <script type="text/javascript">
 		var BIGP = {};
+
+		function errToString(e) {
+			return e.message + "(" + e.filename + ":" + e.lineno + ")\n" + e.error;
+		}
+
+		window.onerror = function(e) {
+			alert(e);
+		};
+
+		window.addEventListener('error', function(e, url, lineNumber) {
+			alert(errToString(e));
+		})
+
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min.js"></script>
