@@ -26,7 +26,12 @@ module.exports = function(BIGP) {
 	var counter = 0;
 
 	io.on('connect', function(client) {
+		trace(client.id);
 
 		client.emit('echo', 'Bonjour! ' + counter++);
+
+		client.on('cursor', function(pos) {
+			client.broadcast.emit('cursor', {id: client.id, pos:pos});
+		})
 	})
 };

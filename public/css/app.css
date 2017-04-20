@@ -2,3 +2,20 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 14px;
 }
+#players {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fa3;
+  z-index: -1;
+}
+.player .tag {
+  font-size: 9px;
+  padding: 3px;
+  border-radius: 4px;
+  background: #fff;
+  color: #c57630;
+}
